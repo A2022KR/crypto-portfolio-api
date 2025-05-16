@@ -7,7 +7,9 @@ app = Flask(__name__)
 coin_map = {
     "BTC": "bitcoin",
     "ETH": "ethereum",
-    "USDT": "tether"
+    "USDT": "tether",
+    "DOGE": "Dogecoin", 
+    "BNB": "BNB"
 }
 
 # Homepage
