@@ -1,103 +1,30 @@
-from pathlib import Path
-
-# Updated HTML content with the supervisor as a heading and cleaned up layout
-updated_homepage_html = """
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Cryptocurrency Portfolio API</title>
-    <style>
-        body {
-            background-color: #111;
-            color: #0ff;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 30px;
-        }
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 0.5em;
-        }
-        h2 {
-            color: #0ff;
-            margin-top: 1.5em;
-        }
-        .section {
-            margin: 20px auto;
-            max-width: 800px;
-        }
-        .button {
-            display: inline-block;
-            margin: 10px;
-            padding: 10px 20px;
-            background-color: #0066cc;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-        }
-        .button:hover {
-            background-color: #004d99;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        ul li {
-            padding: 2px 0;
-            color: white;
-        }
-        footer {
-            margin-top: 2em;
-            font-size: 0.8em;
-            color: #888;
-        }
-    </style>
 </head>
-<body>
+<body style="background-color:#111; color:cyan; font-family:sans-serif; text-align:center;">
     <h1>Cryptocurrency Portfolio API</h1>
-    <div class="section">
-        <p><strong>Final Project:</strong> A Secure Platform for Digital Asset Management</p>
-        <p><strong>Course:</strong> FT622: Fintech - APIs in the Financial Industry – 2025SPRING-LECT-FT04-PGD</p>
-        <p><strong>Institution:</strong> ESLSCA University – Egypt, May 2025</p>
-    </div>
+    <p><strong>Final Project:</strong> A Secure Platform for Digital Asset Management</p>
+    <p><strong>Course:</strong> FT622: Fintech – APIs in the Financial Industry – 2025SPRING-LECT-FT04-PGD</p>
+    <p><strong>Institution:</strong> ESLSCA University – Egypt, May 2025</p>
 
-    <div class="section">
-        <h2>🧑‍💻 Prepared by</h2>
-        <ul>
-            <li>Rowida Abdelrahman Elhawary</li>
-            <li>Khaled Hassan</li>
-            <li>Fouad Shawky</li>
-            <li>Ahmed Hamza</li>
-            <li>Abdelrahman Amin Khodary</li>
-        </ul>
-    </div>
+    <h2>👥 Prepared by:</h2>
+    <ul style="list-style:none; padding:0;">
+        <li>Rowida Abdelrahman Elhawary</li>
+        <li>Khaled Hassan</li>
+        <li>Fouad Shawky</li>
+        <li>Ahmed Hamza</li>
+        <li>Abdelrahman Amin Khodary</li>
+    </ul>
 
-    <div class="section">
-        <h2>🧑‍🏫 Supervised by</h2>
-        <p>Dr. Sara ElRefaey</p>
-    </div>
+    <h2>👩‍🏫 Supervised by:</h2>
+    <p><strong>Dr. Sara ElRefaey</strong></p>
 
-    <div class="section">
-        <h2>📘 Introduction</h2>
-        <p>This API allows users to track their cryptocurrency holdings, retrieve real-time market prices using the CoinGecko API, and compute portfolio valuation securely. It is built using Flask and deployed on Render.com as part of a final project in the Fintech APIs course.</p>
-    </div>
+    <h2>📘 Introduction</h2>
+    <p>This API allows users to track their cryptocurrency holdings, retrieve real-time market prices using the CoinGecko API, and compute portfolio valuation securely. It is built using Flask and deployed on Render.com.</p>
 
-    <div class="section">
-        <h2>🚀 Interactive Tool</h2>
-        <a href="/calculator" class="button">Crypto Value Calculator</a>
-        <a href="/" class="button">Home</a>
-        <a href="/about" class="button">About</a>
-    </div>
-
-    <footer>© 2025 FT622 – Fintech APIs Project – All rights reserved.</footer>
+    <h2>🚀 Interactive Tools</h2>
+    <a href="/calculator" style="padding:10px; background-color:teal; color:white; text-decoration:none; border-radius:5px;">Crypto Value Calculator</a>
 </body>
 </html>
-"""
-
-# Save the updated homepage HTML
-html_file_path = Path("/mnt/data/templates/crypto_api_homepage.html")
-html_file_path.parent.mkdir(parents=True, exist_ok=True)
-html_file_path.write_text(updated_homepage_html)
-html_file_path.name
