@@ -1,15 +1,9 @@
-from pathlib import Path
-
-# Final full app.py with error handling and secure input processing
-final_app_code = '''
 from flask import Flask, request, render_template
 import requests
 import os
 
 app = Flask(__name__)
-app.config["DEBUG"] = False  # Set True only during development
 
-# Cryptocurrency map (mainly for dropdown display)
 coin_map = {
     "BTC": "bitcoin",
     "ETH": "ethereum",
@@ -33,46 +27,28 @@ def about():
 
 @app.route("/calculator", methods=["GET", "POST"])
 def calculator():
-    result = None
-    selected = None
-    amount = None
-
     if request.method == "POST":
         coin_id = request.form.get("symbol", "").strip()
         amount = request.form.get("amount", "").strip()
-        selected = coin_id
-
-        if not coin_id or not amount:
-            return render_template("error.html", message="Please select a cryptocurrency and enter an amount.")
 
         try:
             amount_float = float(amount)
         except ValueError:
-            return render_template("error.html", message="Invalid amount. Please enter a numeric value.")
+            return render_template("error.html", message="Invalid amount. Please enter a number.")
 
         url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin_id}&vs_currencies=usd"
         try:
-            response = requests.get(url, timeout=10).json()
+            response = requests.get(url).json()
             usd_price = response[coin_id]["usd"]
-        except (requests.exceptions.RequestException, KeyError):
-            return render_template("error.html", message="Failed to retrieve price. Please try again.")
+        except Exception:
+            return render_template("error.html", message="Price not found. Please try again later.")
 
         value = round(amount_float * usd_price, 2)
         result = f"{amount} {coin_id.upper()} = ${value} USD"
+        return render_template("calculator_template.html", result=result, selected=coin_id, amount=amount)
 
-    return render_template("calculator_template.html", result=result, selected=selected, amount=amount)
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template("error.html", message="Page not found."), 404
+    return render_template("calculator_template.html", result=None, selected=None, amount=None)
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     app.run(host="0.0.0.0", port=port)
-'''
-
-# Save to file
-final_app_path = Path("/mnt/data/app.py")
-final_app_path.write_text(final_app_code.strip())
-
-final_app_path.name
