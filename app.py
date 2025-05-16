@@ -27,23 +27,16 @@ def about():
 
 @app.route("/calculator", methods=["GET", "POST"])
 def calculator():
-    result = None
-    error_message = None
     if request.method == "POST":
-        symbol = request.form.get("symbol")
+        coin_id = request.form.get("symbol")
         amount = request.form.get("amount")
 
         try:
-            amount = float(amount)
+            amount_float = float(amount)
         except ValueError:
-            error_message = "Invalid amount. Please enter a number."
-            return render_template("calculator_template.html", coins=coin_map, error=error_message)
+            return render_template("error.html", message="Invalid amount. Please enter a numeric value.")
 
-        coin_id = coin_map.get(symbol)
-        if not coin_id:
-            error_message = "Invalid cryptocurrency symbol selected."
-            return render_template("calculator_template.html", coins=coin_map, error=error_message)
-
+        import requests
         url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin_id}&vs_currencies=usd"
         response = requests.get(url).json()
 
@@ -52,13 +45,8 @@ def calculator():
         except KeyError:
             return render_template("error.html", message="Price not found. Please try again later.")
 
-        result = f"{amount} {symbol} = ${round(amount * usd_price, 2)} USD"
+        value = round(amount_float * usd_price, 2)
+        result = f"{amount} {coin_id.upper()} = ${value} USD"
+        return render_template("calculator_template.html", result=result, selected=coin_id, amount=amount)
 
-    return render_template("calculator_template.html", coins=coin_map, result=result)
-
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template("error.html", message="Page not found."), 404
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
+    return render_template("calculator_template.html", result=None, selected=None, amount=None)
