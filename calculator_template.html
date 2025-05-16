@@ -1,0 +1,36 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crypto Value Calculator</title>
+    <style>
+        body { font-family: Arial; background: #0b0c10; color: #fff; padding: 40px; }
+        input, select, button { padding: 10px; margin: 10px 0; }
+        a { color: #66fcf1; text-decoration: none; margin-right: 15px; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div>
+        <a href="/">🏠 Home</a>
+        <a href="/about">📖 About</a>
+    </div>
+    <h1>Cryptocurrency Value Calculator</h1>
+    <form method="POST">
+        <label>Select Cryptocurrency:</label><br>
+        <select name="symbol" required>
+            <option value="BTC">Bitcoin (BTC)</option>
+            <option value="ETH">Ethereum (ETH)</option>
+            <option value="USDT">Tether (USDT)</option>
+            <option value="DOGE">Dogecoin (DOGE)</option>
+            <option value="BNB">BNB</option>
+        </select><br>
+        <label>Amount you own:</label><br>
+        <input name="amount" type="number" step="any" required><br>
+        <button type="submit">Calculate</button>
+    </form>
+    <div style="margin-top: 30px;">
+        <strong>{{ result|safe }}</strong>
+    </div>
+</body>
+</html>
