@@ -1,4 +1,13 @@
-from flask import render_template_string
+# Full Flask app with homepage, portfolio API, CoinGecko price fetch, and interactive calculator
+
+from pathlib import Path
+
+enhanced_flask_app = '''
+from flask import Flask, jsonify, request, render_template_string
+import requests
+import os
+
+app = Flask(__name__)
 
 @app.route("/")
 def home():
@@ -17,13 +26,6 @@ coin_map = {
     "ETH": "ethereum",
     "USDT": "tether"
 }
-
-@app.route("/")
-def home():
-    return jsonify({
-        "message": "Welcome to the Cryptocurrency Portfolio API",
-        "endpoints": ["/portfolio", "/portfolio/value", "/prices/current"]
-    })
 
 @app.route("/portfolio")
 def get_portfolio():
@@ -62,7 +64,56 @@ def get_portfolio_value():
         "breakdown": breakdown
     })
 
+@app.route("/calculator", methods=["GET", "POST"])
+def calculator():
+    result = ""
+    if request.method == "POST":
+        symbol = request.form.get("symbol", "").upper()
+        amount = float(request.form.get("amount", "0"))
+        coin_id = coin_map.get(symbol)
+        if coin_id:
+            url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin_id}&vs_currencies=usd"
+            response = requests.get(url).json()
+            usd_price = response[coin_id]["usd"]
+            total_value = round(usd_price * amount, 2)
+            result = f"You own {amount} {symbol}<br>Current price: ${usd_price:.2f}<br>Total value: ${total_value:,.2f}"
+        else:
+            result = f"Unknown symbol: {symbol}"
+
+    html = f"""
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Crypto Value Calculator</title>
+        <style>
+            body {{ font-family: Arial; background: #0b0c10; color: #fff; padding: 40px; }}
+            input, button {{ padding: 10px; margin: 10px 0; }}
+        </style>
+    </head>
+    <body>
+        <h1>Cryptocurrency Value Calculator</h1>
+        <form method="POST">
+            <label>Cryptocurrency Symbol (e.g. BTC):</label><br>
+            <input name="symbol" required><br>
+            <label>Amount you own:</label><br>
+            <input name="amount" type="number" step="any" required><br>
+            <button type="submit">Calculate</button>
+        </form>
+        <div style="margin-top: 30px;">
+            <strong>{result}</strong>
+        </div>
+    </body>
+    </html>
+    """
+    return html
+
 if __name__ == "__main__":
-    import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+'''
+
+# Save updated app.py
+new_app_path = Path("/mnt/data/app.py")
+new_app_path.write_text(enhanced_flask_app)
+
+new_app_path.name
