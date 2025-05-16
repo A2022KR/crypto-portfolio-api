@@ -1,24 +1,152 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Crypto Calculator</title>
+    <title>Crypto Value Calculator</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 20px;
+        }
+        a {
+            color: #add8e6;
+            margin-right: 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        h1 {
+            font-size: 32px;
+            margin-top: 20px;
+        }
+        label, select, input {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        select, input[type="text"], input[type="submit"] {
+            padding: 8px;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+        .result, .error {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        .error {
+            color: red;
+        }
+        .result {
+            color: #90ee90;
+        }
+    </style>
 </head>
-<body style="background-color:#111;color:#fff;font-family:sans-serif;">
-    <a href="/">🏠 Home</a> <a href="/about">📘 About</a>
+<body>
+    <a href="/">🏠 Home</a>
+    <a href="/about">📘 About</a>
+
     <h1>Cryptocurrency Value Calculator</h1>
+
     <form method="POST">
-        <label>Select Cryptocurrency:</label><br>
-        <select name="symbol">
-            <option value="BTC">Bitcoin (BTC)</option>
-            <option value="ETH">Ethereum (ETH)</option>
-            <option value="USDT">Tether (USDT)</option>
-            <option value="DOGE">Dogecoin (DOGE)</option>
-            <option value="BNB">BNB (BNB)</option>
+        <label for="symbol">Select Cryptocurrency:</label><br>
+        <select name="symbol" id="symbol" required>
+            {% for code, name in coins.items() %}
+                <option value="{{ code }}">{{ name.capitalize() }} ({{ code }})</option>
+            {% endfor %}
         </select><br><br>
-        <label>Amount you own:</label><br>
-        <input type="text" name="amount"><br><br>
+
+        <label for="amount">Amount you own:</label><br>
+        <input type="text" name="amount" id="amount" required><br><br>
+
         <input type="submit" value="Calculate">
     </form>
+
+    {% if result %}
+        <div class="result">
+            ✅ <strong>Result:</strong> {{ result }}
+        </div>
+    {% elif error %}
+        <div class="error">
+            ❌ <strong>Error:</strong> {{ error }}
+        </div>
+    {% endif %}
+</body>
+</html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crypto Value Calculator</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #fff;
+            font-family: 'Segoe UI', sans-serif;
+            padding: 20px;
+        }
+        a {
+            color: #add8e6;
+            margin-right: 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        h1 {
+            font-size: 32px;
+            margin-top: 20px;
+        }
+        label, select, input {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        select, input[type="text"], input[type="submit"] {
+            padding: 8px;
+            font-size: 16px;
+            margin-top: 8px;
+        }
+        .result, .error {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        .error {
+            color: red;
+        }
+        .result {
+            color: #90ee90;
+        }
+    </style>
+</head>
+<body>
+    <a href="/">🏠 Home</a>
+    <a href="/about">📘 About</a>
+
+    <h1>Cryptocurrency Value Calculator</h1>
+
+    <form method="POST">
+        <label for="symbol">Select Cryptocurrency:</label><br>
+        <select name="symbol" id="symbol" required>
+            {% for code, name in coins.items() %}
+                <option value="{{ code }}">{{ name.capitalize() }} ({{ code }})</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="amount">Amount you own:</label><br>
+        <input type="text" name="amount" id="amount" required><br><br>
+
+        <input type="submit" value="Calculate">
+    </form>
+
+    {% if result %}
+        <div class="result">
+            ✅ <strong>Result:</strong> {{ result }}
+        </div>
+    {% elif error %}
+        <div class="error">
+            ❌ <strong>Error:</strong> {{ error }}
+        </div>
+    {% endif %}
 </body>
 </html>
