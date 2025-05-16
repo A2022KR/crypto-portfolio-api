@@ -1,9 +1,36 @@
-
 <!DOCTYPE html>
 <html>
-<head><title>Error</title></head>
-<body style="background-color:#111;color:red;text-align:center;font-family:sans-serif;">
-    <h1>Error Occurred</h1>
+<head>
+    <title>Error</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #ff4c4c;
+            font-family: 'Segoe UI', sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        h1 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 20px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 30px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #add8e6;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚨 Error Occurred</h1>
     <p>{{ message }}</p>
     <a href="/">🏠 Back to Home</a>
 </body>
