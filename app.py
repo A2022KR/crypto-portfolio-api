@@ -1,5 +1,5 @@
-
 from flask import Flask, request, jsonify, render_template
+import requests
 
 app = Flask(__name__)
 
@@ -27,6 +27,8 @@ def about():
 
 @app.route("/calculator", methods=["GET", "POST"])
 def calculator():
+    result = None
+    error_message = None
     if request.method == "POST":
         symbol = request.form.get("symbol")
         amount = request.form.get("amount")
@@ -34,13 +36,14 @@ def calculator():
         try:
             amount = float(amount)
         except ValueError:
-            return "Invalid amount. Please enter a numeric value."
+            error_message = "Invalid amount. Please enter a number."
+            return render_template("calculator_template.html", coins=coin_map, error=error_message)
 
         coin_id = coin_map.get(symbol)
         if not coin_id:
-            return render_template("error.html", message="Invalid cryptocurrency symbol selected.")
+            error_message = "Invalid cryptocurrency symbol selected."
+            return render_template("calculator_template.html", coins=coin_map, error=error_message)
 
-        import requests
         url = f"https://api.coingecko.com/api/v3/simple/price?ids={coin_id}&vs_currencies=usd"
         response = requests.get(url).json()
 
@@ -49,9 +52,13 @@ def calculator():
         except KeyError:
             return render_template("error.html", message="Price not found. Please try again later.")
 
-        value = round(amount * usd_price, 2)
-        return f"{amount} {symbol} = ${value} USD"
-    return render_template("calculator_template.html")
+        result = f"{amount} {symbol} = ${round(amount * usd_price, 2)} USD"
+
+    return render_template("calculator_template.html", coins=coin_map, result=result)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("error.html", message="Page not found."), 404
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000)
