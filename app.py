@@ -8,8 +8,13 @@ coin_map = {
     "BTC": "bitcoin",
     "ETH": "ethereum",
     "USDT": "tether",
+    "XRP": "ripple",
+    "BNB": "binancecoin",
+    "SOL": "solana",
+    "USDC": "usd-coin",
     "DOGE": "dogecoin",
-    "BNB": "binancecoin"
+    "ADA": "cardano",
+    "TRX": "tron"
 }
 
 @app.route("/")
