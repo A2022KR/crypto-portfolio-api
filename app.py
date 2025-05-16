@@ -1,8 +1,10 @@
+from flask import render_template_string
 
-from flask import Flask, jsonify
-import requests
-
-app = Flask(__name__)
+@app.route("/")
+def home():
+    with open("crypto_api_homepage.html", "r") as f:
+        html = f.read()
+    return render_template_string(html)
 
 user_portfolio = {
     "BTC": 0.5,
